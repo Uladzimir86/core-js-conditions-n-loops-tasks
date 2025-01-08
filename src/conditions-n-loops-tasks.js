@@ -414,21 +414,21 @@ function sortByAsc(arr) {
   const len = arr.length;
   const res = arr;
   for (let i = 0; i < len - 1; i += 1) {
-    let isChange = false;
-    for (let j = 1; j < len - i; j += 1) {
+    for (let j = i + 1; j < len - i; j += 1) {
       if (res[j] < res[j - 1]) {
         const max = res[j - 1];
         res[j - 1] = res[j];
         res[j] = max;
-        isChange = true;
+      }
+      if (res[len - j] < res[len - j - 1]) {
+        const min = res[len - j];
+        res[len - j] = res[len - j - 1];
+        res[len - j - 1] = min;
       }
     }
-    if (!isChange) break;
   }
   return res;
 }
-
-/** console.log('sortByAsc: ', sortByAsc([-2, 9, 5, -3])); */
 
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
