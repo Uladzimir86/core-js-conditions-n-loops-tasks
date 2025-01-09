@@ -410,26 +410,35 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
+
+function sort(left, right) {
+  const res = [];
+  while (left.length && right.length) {
+    if (left[0] < right[0]) res.push(left.shift());
+    else res.push(right.shift());
+  }
+
+  return [...res, ...left, ...right];
+}
+
+function sortBy(arr) {
+  if (arr.length <= 1) return arr;
+
+  const mid = Math.trunc(arr.length / 2);
+  const left = sortBy(arr.slice(0, mid));
+  const right = sortBy(arr.slice(mid));
+
+  return sort(left, right);
+}
+
 function sortByAsc(arr) {
-  const len = arr.length;
   const res = arr;
-  for (let i = 0; i < len - 1; i += 1) {
-    for (let j = i + 1; j < len - i; j += 1) {
-      if (res[j] < res[j - 1]) {
-        const max = res[j - 1];
-        res[j - 1] = res[j];
-        res[j] = max;
-      }
-      if (res[len - j] < res[len - j - 1]) {
-        const min = res[len - j];
-        res[len - j] = res[len - j - 1];
-        res[len - j - 1] = min;
-      }
-    }
+  const sortNum = sortBy(arr);
+  for (let i = 0; i < sortNum.length; i += 1) {
+    res[i] = sortNum[i];
   }
   return res;
 }
-
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
  * Take into account that the string can be very long and the number of iterations is large. Consider how you can optimize your solution.
